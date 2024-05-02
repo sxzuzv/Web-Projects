@@ -30,4 +30,22 @@ class ItemRepositoryTest {  // 최근 JUnit의 경우, public 생략 가능
         Item findItem = itemRepository.findById(item.getId());
         assertThat(findItem).isEqualTo(savedItem);
     }
+
+
+    @Test
+    void findAll() {
+        //given
+        Item itemA = new Item("itemA", 10000, 10);
+        Item itemB = new Item("itemB", 20000, 20);
+
+        itemRepository.save(itemA);
+        itemRepository.save(itemB);
+
+        //when
+        List<Item> result = itemRepository.findAll();
+
+        //then: 조회 목록의 사이즈 비교 및 목록에 지정한 상품이 존재하는가?
+        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).contains(itemA, itemB);
+    }
 }
