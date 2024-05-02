@@ -48,4 +48,23 @@ class ItemRepositoryTest {  // 최근 JUnit의 경우, public 생략 가능
         assertThat(result.size()).isEqualTo(2);
         assertThat(result).contains(itemA, itemB);
     }
+
+    @Test
+    void updateItem() {
+        //given
+        Item itemA = new Item("itemA", 10000, 10);
+
+        Item savedItem = itemRepository.save(itemA);
+        Long itemId = savedItem.getId();
+
+        //when
+        Item updatedParam = new Item("itemB", 20000, 20);   // 상품 수정 정보
+        itemRepository.update(itemId, updatedParam);
+
+        //then: 수정한 상품 정보가 정상 반영됐는가?
+        Item findItem = itemRepository.findById(itemId);
+        assertThat(findItem.getItemName()).isEqualTo(updatedParam.getItemName());
+        assertThat(findItem.getPrice()).isEqualTo(updatedParam.getPrice());
+        assertThat(findItem.getQuantity()).isEqualTo(updatedParam.getQuantity());
+    }
 }
