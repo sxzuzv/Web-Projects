@@ -32,8 +32,8 @@ public class ItemServiceController {
     }
 
     // 입력된 상품 정보 등록
-    @PostMapping("/add")
-    public String save(@RequestParam("itemName") String itemName,
+    // @PostMapping("/add")
+    public String saveV1(@RequestParam("itemName") String itemName,
                        @RequestParam("price") int price,
                        @RequestParam("quantity") Integer quantity,
                        Model model) {
@@ -48,7 +48,48 @@ public class ItemServiceController {
 
         model.addAttribute("item", item);
 
-        // 상품 상세 페이지로 이동하도록 한다.
+        // 상품 상세 페이지로 이동한다.
+        return "basic/item";
+    }
+
+    // @PostMapping("/add")
+    public String saveV2(@ModelAttribute("item") Item item) {
+        /* @ModelAttribute 사용 시, 아래의 코드를 자동 처리해준다.
+            Item item = new Item();
+            item.setItemName(itemName);
+            item.setPrice(price);
+            item.setQuantity(quantity);
+         */
+
+        itemRepository.save(item);
+
+        // 또한, ("item") 설정해둔 이름으로 모델에 자동으로 데이터를 넣어준다.
+        // 메서드의 매개변수로 모델 객체를 받을 필요도 없다!
+        // model.addAttribute("item", item);
+
+        return "basic/item";
+    }
+
+    // @PostMapping("/add")
+    public String saveV3(@ModelAttribute Item item) {
+        itemRepository.save(item);
+
+        // @ModelAttribute의 name 속성은 생략할 수 있다.
+        // 이 경우, 매개변수로 전달받은 객체의 클래스 이름을 활용해 모델에 데이터를 넘긴다.
+        // => 클래스 이름 Item의 첫 글자만 소문자로 변경(item)하여 이름으로 지정한다.
+        // model.addAttribute("item", item);
+
+        return "basic/item";
+    }
+
+    @PostMapping("/add")
+    public String saveV4(Item item) {
+        // @ModelAttribute 애너테이션 생략이 가능하다.
+        // 매개변수로 임의의 객체를 받는 경우, @ModelAttribute가 자동으로 적용된다.
+        // 모델에 데이터를 담을 때에는 V3와 동일한 과정을 거친다.
+
+        itemRepository.save(item);
+
         return "basic/item";
     }
 
