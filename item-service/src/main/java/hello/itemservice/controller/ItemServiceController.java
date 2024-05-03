@@ -6,9 +6,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,33 @@ public class ItemServiceController {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
         return "basic/items";
+    }
+
+    // 상품 등록 Form 출력
+    @GetMapping("/add")
+    public String addForm() {
+        return "basic/addForm";
+    }
+
+    // 입력된 상품 정보 등록
+    @PostMapping("/add")
+    public String save(@RequestParam("itemName") String itemName,
+                       @RequestParam("price") int price,
+                       @RequestParam("quantity") Integer quantity,
+                       Model model) {
+
+        // Form에 입력된 데이터는 name 속성에 지정해둔 이름으로 넘어온다.
+        Item item = new Item();
+        item.setItemName(itemName);
+        item.setPrice(price);
+        item.setQuantity(quantity);
+
+        itemRepository.save(item);
+
+        model.addAttribute("item", item);
+
+        // 상품 상세 페이지로 이동하도록 한다.
+        return "basic/item";
     }
 
     /**
