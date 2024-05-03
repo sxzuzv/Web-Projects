@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <!-- Thymeleaf: 뷰 템플릿 렌더링 시, 절대 경로 참고하여 css 적용 -->
+    <!-- 뷰 템플릿 렌더링 시, 기존 내용에서 설정한 내용으로 치환된다. -->
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>상품 목록</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <!-- Thymeleaf: |...| 내부에 작성한 내용을 그대로 반영한다. -->
+            <!-- 링크 시에는 @{...} 문법을 사용한다. -->
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/basic/items/add}'|"
+                    type="button">상품 등록</button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>수량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Thymeleaf: ${...}의 데이터를 하나씩 꺼내 넣는다. -->
+            <tr th:each="item : ${items}">
+                <!-- Thymeleaf: 단순 데이터 출력 시, th:text 사용 -->
+                <!-- ${} => 프로퍼티 접근법 사용: .getId() 자동 실행하여 데이터를 가지고 온다. -->
+                <!-- () => 링크에 들어갈 변수 값 지정 가능: '/basic/items/1'로 링크된다. -->
+                <td><a href="item.html" th:href="@{/basic/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원 ID</a></td>
+                <td><a href="item.html" th:href="@{/basic/items/{itemId}(itemId=${item.id})}" th:text="${item.itemName}">상품명</a></td>
+                <td th:text="${item.price}">10000</td>
+                <td th:text="${item.quantity}">10</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
