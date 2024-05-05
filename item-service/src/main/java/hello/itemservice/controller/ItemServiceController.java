@@ -82,7 +82,7 @@ public class ItemServiceController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
+    // @PostMapping("/add")
     public String saveV4(Item item) {
         // @ModelAttribute 애너테이션 생략이 가능하다.
         // 매개변수로 임의의 객체를 받는 경우, @ModelAttribute가 자동으로 적용된다.
@@ -91,6 +91,16 @@ public class ItemServiceController {
         itemRepository.save(item);
 
         return "basic/item";
+    }
+
+    /**
+     * PRG - POST Redirect GET
+     */
+    @PostMapping("/add")
+    public String saveV5(Item item) {
+        itemRepository.save(item);
+
+        return "redirect:/basic/items/" + item.getId();
     }
 
     /**
