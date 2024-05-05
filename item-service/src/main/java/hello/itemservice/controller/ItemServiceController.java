@@ -104,9 +104,17 @@ public class ItemServiceController {
 
     // 상품 상세 정보 확인
     @GetMapping("/{itemId}")
-    public String item(@PathVariable("itemId") long itemId, Model model) {
+    public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
         return "basic/item";
+    }
+
+    // 상품 수정 Form 출력
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable("itemId") Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
     }
 }
