@@ -117,4 +117,15 @@ public class ItemServiceController {
         model.addAttribute("item", item);
         return "basic/editForm";
     }
+
+    // 상품 수정 반영
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable("itemId") Long itemId, @ModelAttribute Item item) {
+        // 수정 정보를 @ModelAttribute 애너테이션을 사용해 Item 객체 형태로 받은 후 반영한다.
+        itemRepository.update(itemId, item);
+
+        // redirect로 상품 상세 화면으로 넘어간다.
+        // {itemId}: @PathVariable을 사용해 받은 itemId를 그대로 사용한다.
+        return "redirect:/basic/items/{itemId}";
+    }
 }
