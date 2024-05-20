@@ -22,7 +22,7 @@ public class WebSocketHandler extends TextWebSocketHandler {    // WebSocketHand
         var sessionId = session.getId();
         sessions.put(sessionId, session);   // 접속한 세션을 세션 정보 Map에 저장한다.
 
-        Message message = Message.builder().sender(sessionId).receiver("all").build();
+        Message message = Message.builder().sender(sessionId).sender("all").build();
         message.newConnect();   // 연결 상태 UPDATE: "NEW"
         
         sessions.values().forEach(s -> {    // 세션 정보 Map에 저장된 세션을 순회한다.
