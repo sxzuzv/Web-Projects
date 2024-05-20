@@ -1,4 +1,4 @@
-package web.socket;
+package web.socket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +19,6 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler signalingSocketHandler() {
-        return new web.socket.WebSocketHandler();
+        return new web.socket.handler.WebSocketHandler();
     }
 }
