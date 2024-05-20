@@ -59,7 +59,22 @@ public class WebSocketHandler extends TextWebSocketHandler {    // WebSocketHand
     // 웹 소켓 연결 종료 시 실행
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        var sessionId = session.getId();
 
+        // 연결이 끊어진 사용자를 세션 정보 Map에서 삭제한다.
+        sessions.remove(sessionId);
+
+        final Message message = new Message();
+        message.closeConnect();         // 연결 종료
+        message.setSender(sessionId);
+
+        sessions.values().forEach(s -> {    // 세션 정보 Map에 저장된 세션을 순회한다.
+            try {
+                // 모든 세션에 접속 해제를 알린다.
+                s.sendMessage(new TextMessage(Utils.toString(message)));
+            } catch (Exception e) {
+            }
+        });
     }
 
     // 웹 소켓 통신 에러 시 실행
