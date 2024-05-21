@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Message {  // 서버 - 클라이언트 소켓 통신에서 사용하는 메시지 스펙 정의
     private String type;
     private String sender;
-//    private String receiver;
+    private String receiver;
     private String channelId;
     private Object data;
 
